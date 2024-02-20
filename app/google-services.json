@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "126770623252",
+    "project_id": "banks-cards",
+    "storage_bucket": "banks-cards.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126770623252:android:9ed3541d1728efb954c801",
+        "android_client_info": {
+          "package_name": "com.example.jetpack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEI0EpqMOFqJ-d8Dt5MDo_XDGX5rJ3VwY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
