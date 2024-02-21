@@ -25,6 +25,8 @@ class Dimensions {
     object Size {
         val size_16 = 16.dp
         val size_60 = 60.dp
+        val size_100=100.dp
+        val size_120=120.dp
     }
 
 

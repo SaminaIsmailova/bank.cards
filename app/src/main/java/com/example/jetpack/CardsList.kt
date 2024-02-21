@@ -19,14 +19,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.jetpack.model.CardsListModel
 
-class MyList {
+class CardsList {
     @Composable
     fun ListItem(data: CardsListModel) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(Dimensions.Padding.padding_20),
-            elevation = CardDefaults.cardElevation(16.dp)
+            elevation = CardDefaults.cardElevation(Dimensions.Size.size_16)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -36,8 +36,8 @@ class MyList {
                     painter = painterResource(id = data.img),
                     contentDescription = null,
                     modifier = Modifier
-                        .height(100.dp)
-                        .width(120.dp)
+                        .height(Dimensions.Size.size_100)
+                        .width(Dimensions.Size.size_120)
                         .padding(Dimensions.Padding.padding_10)
                         .clip(RoundedCornerShape(Dimensions.Size.size_16)),
                 )

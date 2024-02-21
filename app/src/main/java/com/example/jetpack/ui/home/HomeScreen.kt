@@ -1,4 +1,4 @@
-package com.example.jetpack.ui
+package com.example.jetpack.ui.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,16 +16,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import com.example.jetpack.MyList
+import com.example.jetpack.CardsList
 import com.example.jetpack.R
-import com.example.jetpack.ViewModel
+import com.example.jetpack.Repository
+import com.example.jetpack.model.CardsListModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+class HomeScreen {
+    val repository=Repository()
 
-class Home {
-    private val viewModel = ViewModel()
-
+    @Inject
+    lateinit var viewModel:HomeViewModel
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun HomeScreen(onClick: () -> Unit) {
+    fun ShowHomeContent(onClick: () -> Unit) {
+        viewModel=HomeViewModel(repository = repository)
         Column {
             TopAppBar(modifier = Modifier
                 .fillMaxWidth(),
@@ -51,8 +56,8 @@ class Home {
                 })
 
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                itemsIndexed(viewModel.addData()) { _, item ->
-                    MyList().ListItem(data = item)
+                itemsIndexed(viewModel.cardsList) { _, item ->
+                    CardsList().ListItem(data = item)
                 }
             }
         }

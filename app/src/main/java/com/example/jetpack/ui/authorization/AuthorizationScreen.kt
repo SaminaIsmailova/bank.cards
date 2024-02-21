@@ -1,7 +1,6 @@
-package com.example.jetpack.ui
+package com.example.jetpack.ui.authorization
 
 import android.text.TextUtils
-import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,11 +18,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,30 +36,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.jetpack.Dimensions
 import com.example.jetpack.R
-import com.example.jetpack.model.Users
-import com.example.jetpack.ui.Registration.Companion.DATABASENAME
 import com.example.jetpack.ui.theme.JetPackTheme
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.database
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 
-class Authorization {
-    private val auth = FirebaseAuth.getInstance()
-    private val myDataBase=Firebase.database.getReference(DATABASENAME)
-
-
+class AuthorizationScreen {
+    private val authorizationViewModel=AuthorizationViewModel()
     @Composable
     @Preview(showSystemUi = true)
-    fun AuthorizationScreen(onClick: () -> Unit = {}, onBtnClick: () -> Unit = {}) {
+    fun ShowAuthorizationContent(onClick: () -> Unit = {}, onBtnClick: () -> Unit = {}) {
         JetPackTheme {
             Column {
                 Text(
@@ -91,18 +72,15 @@ class Authorization {
         var passwordVisibility by remember {
             mutableStateOf(false)
         }
-
         val icon =
             if (passwordVisibility)
                 painterResource(id = R.drawable.ic_toggle_password_visibility_off)
             else
                 painterResource(id = R.drawable.ic_toggle_password_visibility)
-
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center
         ) {
-
             TextField(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -155,13 +133,7 @@ class Authorization {
                     .height(Dimensions.Size.size_60),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
                 onClick = {
-                    if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
-                        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                onBtnClick()
-                            }
-                        }
-                    }
+                 authorizationViewModel.performLogin(eMail = email,password=password,onBtnClick)
                 }
             ) {
                 Text(

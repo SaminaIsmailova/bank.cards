@@ -2,13 +2,12 @@ package com.example.jetpack
 
 import SplashScreen
 import androidx.compose.runtime.Composable
-import androidx.core.os.bundleOf
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.jetpack.ui.Authorization
-import com.example.jetpack.ui.Home
-import com.example.jetpack.ui.Registration
+import com.example.jetpack.ui.authorization.AuthorizationScreen
+import com.example.jetpack.ui.home.HomeScreen
+import com.example.jetpack.ui.registration.RegistrationScreen
 
 class Navigation {
     @Composable
@@ -16,7 +15,7 @@ class Navigation {
         val navController = rememberNavController()
             NavHost(navController = navController, startDestination = AUTHORIZATION) {
                 composable(AUTHORIZATION) {
-                    Authorization().AuthorizationScreen(
+                    AuthorizationScreen().ShowAuthorizationContent(
                         onClick = {
                             navController.navigate(REGISTRATION)
                         },
@@ -25,7 +24,7 @@ class Navigation {
                         })
                 }
                 composable(REGISTRATION) {
-                    Registration().RegistrationScreen(
+                    RegistrationScreen().ShowRegistrationContent(
                         onClick = {
                             navController.navigate(AUTHORIZATION)
                         },
@@ -34,12 +33,12 @@ class Navigation {
                         })
                 }
                 composable(SPLASHSCREEN){
-                    SplashScreen().Splash(){
+                    SplashScreen().ShowSplashScreen(){
                         navController.navigate(HOMESCREEN)
                     }
                 }
                 composable(HOMESCREEN) {
-                    Home().HomeScreen() {
+                    HomeScreen().ShowHomeContent() {
                         navController.navigate(AUTHORIZATION)
                     }
                 }

@@ -1,6 +1,5 @@
-package com.example.jetpack.ui
+package com.example.jetpack.ui.registration
 
-import android.text.TextUtils
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -35,19 +34,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.jetpack.Dimensions
 import com.example.jetpack.R
-import com.example.jetpack.model.Users
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.database
 
-class Registration {
-    private val auth = FirebaseAuth.getInstance()
-    private val myDataBase = Firebase.database.getReference(DATABASENAME)
+class RegistrationScreen {
+ private val registrationViewModel= RegistrationViewModel()
 
     @Preview(showSystemUi = true)
     @Composable
-    fun RegistrationScreen(onClick: () -> Unit = {}, onBtnClick: () -> Unit = {}) {
+    fun ShowRegistrationContent(onClick: () -> Unit = {}, onBtnClick: () -> Unit = {}) {
 
         Column(
             modifier = Modifier
@@ -175,19 +168,8 @@ class Registration {
                     .padding(Dimensions.Padding.padding_20),
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.red)),
                 onClick = {
-                    if (!TextUtils.isEmpty(eMail) && !TextUtils.isEmpty(password)) {
-                        auth.createUserWithEmailAndPassword(eMail, password).addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                val user: FirebaseUser? = auth.currentUser
-                                val uid = user?.uid
-                                if (uid != null) {
-                                    val users = Users(uid, fName, sName, eMail, password)
-                                    myDataBase.child(uid).setValue(users)
-                                }
+                            registrationViewModel.saveDataInDatabase(fname = fName,sName=sName, email = eMail, password = password)
                                 onBtnClick()
-                            }
-                        }
-                    }
                 }) {
                 Text(
                     modifier = Modifier.padding(Dimensions.Padding.padding_14),
